@@ -6,7 +6,17 @@ package inscricao.persistence.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -77,25 +87,23 @@ public class Candidato implements Serializable {
     @Size(min = 1, max = 200)
     @Column(name = "email")
     private String email;
-    @ManyToOne(optional=false)
-    @JoinColumn(name="idioma", referencedColumnName="codigo")
-    private Idioma idioma;
-    @Column(name = "datahora", insertable=false)
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "datahora")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dataHora;
+    private Date datahora;
+    @JoinColumn(name = "idioma", referencedColumnName = "codigo")
+    @ManyToOne(optional = false)
+    private Idioma idioma;
 
     public Candidato() {
-    }
-
-    public Candidato(Idioma idioma) {
-        this.idioma = idioma;
     }
 
     public Candidato(Long cpf) {
         this.cpf = cpf;
     }
 
-    public Candidato(Long cpf, String rg, String nome, String instituicao, String programa, String endereco, String cidade, String estado, String email) {
+    public Candidato(Long cpf, String rg, String nome, String instituicao, String programa, String endereco, String cidade, String estado, String email, Date datahora) {
         this.cpf = cpf;
         this.rg = rg;
         this.nome = nome;
@@ -105,6 +113,7 @@ public class Candidato implements Serializable {
         this.cidade = cidade;
         this.estado = estado;
         this.email = email;
+        this.datahora = datahora;
     }
 
     public Long getCpf() {
@@ -211,20 +220,20 @@ public class Candidato implements Serializable {
         this.email = email;
     }
 
+    public Date getDatahora() {
+        return datahora;
+    }
+
+    public void setDatahora(Date datahora) {
+        this.datahora = datahora;
+    }
+
     public Idioma getIdioma() {
         return idioma;
     }
 
     public void setIdioma(Idioma idioma) {
         this.idioma = idioma;
-    }
-
-    public Date getDataHora() {
-        return dataHora;
-    }
-
-    public void setDataHora(Date dataHora) {
-        this.dataHora = dataHora;
     }
 
     @Override
@@ -249,7 +258,7 @@ public class Candidato implements Serializable {
 
     @Override
     public String toString() {
-        return "calem.persistence.entity.Candidato[ cpf=" + cpf + " ]";
+        return "inscricao.persistence.entity.Candidato[ cpf=" + cpf + " ]";
     }
-
+    
 }
