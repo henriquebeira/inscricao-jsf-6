@@ -96,6 +96,10 @@ public class Candidato implements Serializable {
     @ManyToOne(optional = false)
     private Idioma idioma;
 
+    public Candidato(Idioma idioma) {
+        this.idioma = idioma;
+    }
+    
     public Candidato() {
     }
 
